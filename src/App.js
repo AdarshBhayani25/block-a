@@ -1,23 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import HomePage from './components/HomePage';
+import FacultyPage from './components/FacultyPage';
+import FacultyDetail from './components/FacultyDetail';
+import LabPage from './components/LabPage';
+import ClassPage from './components/ClassPage';
+import NavBar from './components/NavBar';
+import BlockA from './components/BlockA';
 
 function App() {
+  const [currentPage, setCurrentPage] = useState('home');
+  const [selectedFaculty, setSelectedFaculty] = useState(null);
+
+  const navigateTo = (page, facultyId = null) => {
+    setCurrentPage(page);
+    setSelectedFaculty(facultyId);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <NavBar navigateTo={navigateTo} />
+      {currentPage === 'blocka' && <BlockA navigateTo={navigateTo} />}
+      {currentPage === 'home' && <HomePage navigateTo={navigateTo} />}
+      {currentPage === 'faculty' && (
+        <FacultyPage navigateTo={navigateTo} />
+      )}
+      {currentPage === 'lab' && <LabPage />}
+      {currentPage === 'class' && <ClassPage />}
+
+      {currentPage === 'facultyDetail' && (
+        <FacultyDetail facultyId={selectedFaculty} />
+      )}
     </div>
   );
 }
